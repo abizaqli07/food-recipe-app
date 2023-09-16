@@ -1,11 +1,10 @@
-import React from 'react'
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import { categoryData } from '../constants'
+import React from 'react';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
-const Categories = ({ categories, activeCategory, setActiveCategory }) => {
+const Categories = ({ categories, activeCategory, handleChangeCategory }) => {
   return (
     <Animated.View entering={FadeInDown.duration(500).springify()}>
       <ScrollView
@@ -22,7 +21,7 @@ const Categories = ({ categories, activeCategory, setActiveCategory }) => {
             return (
               <TouchableOpacity
                 key={index}
-                onPress={() => setActiveCategory(cat.strCategory)}
+                onPress={() => handleChangeCategory(cat.strCategory)}
                 className=" flex items-center space-y-1"
               >
                 <View className={`rounded-full p-[6px] ${activeButtonClass}`}>

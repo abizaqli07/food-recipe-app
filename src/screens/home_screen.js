@@ -14,8 +14,15 @@ const HomeScreen = () => {
 
   useEffect(() => {
     getCategories();
-    // getRecipes();
+    getRecipes();
   }, [])
+
+  const handleChangeCategory = category=>{
+    getRecipes(category);
+    setActiveCategory(category);
+    setMeals([]);
+  }
+
 
   const getCategories = async () => {
     try {
@@ -25,6 +32,17 @@ const HomeScreen = () => {
       }
     } catch (err) {
       console.log('error: ', err.message);
+    }
+  }
+
+  const getRecipes = async (category="Beef")=>{
+    try{
+      const response = await axios.get(`https://themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+      if(response && response.data){
+        setMeals(response.data.meals);
+      }
+    }catch(err){
+      console.log('error: ',err.message);
     }
   }
 
@@ -76,12 +94,12 @@ const HomeScreen = () => {
 
         {/* Categories */}
         <View>
-          {categories.length > 0 && <Categories categories={categories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />}
+          {categories.length > 0 && <Categories categories={categories} activeCategory={activeCategory} handleChangeCategory={handleChangeCategory} />}
         </View>
 
         {/* Recipes */}
         <View>
-          <Recipes />
+          <Recipes meals={meals} categories={categories} />
         </View>
       </ScrollView>
     </View>
